@@ -1,0 +1,33 @@
+<div class="container-fluid">
+
+  <div>
+    <acme-navbar></acme-navbar>
+  </div>
+
+  <div class="cha-main">
+    <div class="row">
+      <div class="col-sm-6 col-md-6">
+        <table class="table table-bordered">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col">Ticker</th>
+              <th scope="col">Price</th>
+              <th scope="col">Last Update</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="ticker in vm.tablesList track by ticker.id">
+              <th scope="row">{{ticker.id}}</th>
+              <td>{{ticker.name}}</td>
+              <td>{{ticker.date}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-sm-6 col-md-6">
+        Yadav
+      </div>
+    </div>
+  </div>
+
+</div>
