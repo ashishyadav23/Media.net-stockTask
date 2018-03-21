@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController() {
+  function MainController(AppService, $rootScope) {
     var vm = this;
     activate();
 
@@ -31,7 +31,13 @@
         id: 5,
         "name": 'Manis',
         "date": new Date()
-      }]
+      }];
     }
+    var dataEvent = $rootScope.$on('mesageArrived', function ($event, data) {
+      console.log("mesageArrived", data);
+    });
+    $rootScope.$on('destroy', function () {
+      dataEvent();
+    });
   }
 })();

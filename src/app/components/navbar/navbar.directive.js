@@ -20,7 +20,7 @@
 
     /** @ngInject */
     function NavbarController() {
-      var vm = this;
+      // var vm = this;
     }
   }
 

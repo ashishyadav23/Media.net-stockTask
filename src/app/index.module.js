@@ -2,6 +2,6 @@
   'use strict';
 
   angular
-    .module('mediaNet', ['ui.router', 'ui.bootstrap', 'toastr', 'ngWebSocket']);
+    .module('mediaNet', ['ui.router', 'ui.bootstrap', 'ngWebSocket']);
 
 })();
