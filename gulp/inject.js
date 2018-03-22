@@ -11,7 +11,7 @@ var _ = require('lodash');
 
 var browserSync = require('browser-sync');
 
-gulp.task('inject-reload', ['inject'], function() {
+gulp.task('inject-reload', ['inject'], function () {
   browserSync.reload();
 });
 
@@ -26,7 +26,7 @@ gulp.task('inject', ['scripts'], function () {
     path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
     path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
   ])
-  .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
+  // .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
 
   var injectOptions = {
     ignorePath: [conf.paths.src, path.join(conf.paths.tmp, '/serve')],

@@ -16,16 +16,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="ticker in vm.tablesList track by ticker.id">
-              <th scope="row">{{ticker.id}}</th>
-              <td>{{ticker.name}}</td>
-              <td>{{ticker.date}}</td>
+            <tr ng-repeat="(key,value) in vm.stockList track by key">
+              <th scope="row">{{value.name}}</th>
+              <td ng-class="{'glyphicon glyphicon-arrow-up':value.color=='green','glyphicon glyphicon-arrow-down':value.color=='red','blacktext':value.color=='white'}"
+                ng-style="{'background-color':value.color,'color':'#fff'}">{{value.newValue}}</td>
+              <td>{{vm.formatDate(value.update)}}</td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="col-sm-6 col-md-6">
-        Yadav
+
       </div>
     </div>
   </div>

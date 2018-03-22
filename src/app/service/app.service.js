@@ -7,12 +7,13 @@
         var collection = getLocalStorage();
         var dataStream = $websocket('ws://stocks.mnet.website');
         dataStream.onMessage(function (message) {
-            console.log(message);
-            $rootScope.$broadcast('mesageArrived', formatData(JSON.parse(message.data)));
+            formatData(JSON.parse(message.data))
         });
 
         function getColor(newPrice, oldPrice) {
-            if (newPrice > oldPrice) {
+            if (newPrice == oldPrice) {
+                return "white";
+            } else if (newPrice > oldPrice) {
                 return "green";
             } else if (newPrice < oldPrice) {
                 return "red";
@@ -23,14 +24,14 @@
 
         function pushData(obj) {
             collection.push({
-                [obj.name]: {
-                    "oldValue": obj.value,
-                    "newValue": obj.value,
-                    "color": getColor(obj.value, obj.value),
-                    "update": new Date().getTime()
-                }
+                // [obj.name]: {
+                "name": obj.name,
+                "oldValue": obj.value,
+                "newValue": obj.value,
+                "color": getColor(obj.value, obj.value),
+                "update": new Date().getTime()
+                // }
             });
-            // console.log(obj);
         }
 
         function formatCollections(list) {
@@ -46,22 +47,24 @@
                     // console.log(item.hasOwnProperty(obj.name));
                     var existObj = checkExisting(obj.name);
                     if (existObj.status) {
-                        collection[existObj.pos].newValue = obj.value;
-                        collection[existObj.pos].color = getColor(obj.value, collection[existObj.pos].oldValue);
-                        collection[existObj.pos].update = new Date().getTime();
+                        if (obj.value !== collection[existObj.pos].newValue) {
+                            collection[existObj.pos].newValue = obj.value;
+                            collection[existObj.pos].color = getColor(obj.value, collection[existObj.pos].oldValue);
+                            collection[existObj.pos].update = new Date().getTime();
+                            collection[existObj.pos].name = obj.name;
+                        }
+
                     } else {
                         pushData(obj);
                     }
                 }
             }
-            console.log("Collection formateted", collection);
-
         }
 
         function checkExisting(value) {
             for (var pos = 0; pos < collection.length; pos++) {
                 var item = collection[pos];
-                if (item.hasOwnProperty(value)) {
+                if (item.hasOwnProperty("name") && item.name === value) {
                     return {
                         "pos": pos,
                         "status": true
@@ -76,14 +79,17 @@
         function formatData(stockList) {
             for (var pos = 0; pos < stockList.length; pos++) {
                 formatCollections(stockList[pos]);
+                setLocalStorage();
+                $rootScope.$broadcast('mesageArrived', collection);
             }
         }
 
         function setLocalStorage() {
-            $window.localStorage.setItem('stocks', collection);
+            $window.localStorage.setItem('stocks', JSON.stringify(collection));
         }
         function getLocalStorage() {
-            return $window.localStorage.getItem('stocks') ? $window.localStorage.getItem('stocks') : [];
+            // return [];
+            return $window.localStorage.getItem('stocks') ? JSON.parse($window.localStorage.getItem('stocks')) : [];
         }
     }
 })();
