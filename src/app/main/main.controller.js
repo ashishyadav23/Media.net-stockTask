@@ -12,11 +12,12 @@
 
     function activate() {
       vm.formatDate = formatDate;
-      var dataEvent = $rootScope.$on('mesageArrived', function ($event, data) {
-        vm.stockList = data;
-      });
-    }
+      vm.stockList = AppService.collection;
 
+    }
+    var dataEvent = $rootScope.$on('mesageArrived', function ($event, data) {
+      vm.stockList = data;
+    });
     $rootScope.$on('destroy', function () {
       dataEvent();
     });
@@ -61,7 +62,7 @@
       if (showTime == false) {
         dtOp = dtday + "-" + (monthNames[dt.getMonth()]) + "-" + dt.getFullYear() + "" + hh + ":" + mm + " " + dtzone;
       } else {
-        if (mm == stDt.getMinutes()) {
+        if (dt.getSeconds() == stDt.getSeconds()) {
           return "A few seconds ago";
         } else {
           dtOp = hh + ":" + mm + " " + dtzone;

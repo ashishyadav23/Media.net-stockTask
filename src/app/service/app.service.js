@@ -5,9 +5,13 @@
     /**@ngInject */
     function AppService($websocket, $rootScope, $window) {
         var collection = getLocalStorage();
+        // $rootScope.$broadcast('mesageArrived', collection);
         var dataStream = $websocket('ws://stocks.mnet.website');
         dataStream.onMessage(function (message) {
-            formatData(JSON.parse(message.data))
+            // setTimeout(function () {
+            formatData(JSON.parse(message.data));
+            // }, 1000 * 60)
+
         });
 
         function getColor(newPrice, oldPrice) {
@@ -24,13 +28,11 @@
 
         function pushData(obj) {
             collection.push({
-                // [obj.name]: {
                 "name": obj.name,
                 "oldValue": obj.value,
                 "newValue": obj.value,
                 "color": getColor(obj.value, obj.value),
                 "update": new Date().getTime()
-                // }
             });
         }
 
@@ -44,7 +46,6 @@
             } else {
                 for (var pos = 0; pos < collection.length; pos++) {
                     var item = collection[pos];
-                    // console.log(item.hasOwnProperty(obj.name));
                     var existObj = checkExisting(obj.name);
                     if (existObj.status) {
                         if (obj.value !== collection[existObj.pos].newValue) {
@@ -81,6 +82,7 @@
                 formatCollections(stockList[pos]);
                 setLocalStorage();
                 $rootScope.$broadcast('mesageArrived', collection);
+
             }
         }
 
@@ -91,5 +93,8 @@
             // return [];
             return $window.localStorage.getItem('stocks') ? JSON.parse($window.localStorage.getItem('stocks')) : [];
         }
+        return {
+            collection: collection
+        };
     }
 })();
