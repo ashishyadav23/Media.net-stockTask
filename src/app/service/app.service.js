@@ -44,8 +44,7 @@
             if (collection.length == 0) {
                 pushData(obj)
             } else {
-                for (var pos = 0; pos < collection.length; pos++) {
-                    var item = collection[pos];
+                collection.map(function (item, key) {
                     var existObj = checkExisting(obj.name);
                     if (existObj.status) {
                         if (obj.value !== collection[existObj.pos].newValue) {
@@ -58,7 +57,22 @@
                     } else {
                         pushData(obj);
                     }
-                }
+                })
+                // for (var pos = 0; pos < collection.length; pos++) {
+                //     var item = collection[pos];
+                //     var existObj = checkExisting(obj.name);
+                //     if (existObj.status) {
+                //         if (obj.value !== collection[existObj.pos].newValue) {
+                //             collection[existObj.pos].newValue = obj.value;
+                //             collection[existObj.pos].color = getColor(obj.value, collection[existObj.pos].oldValue);
+                //             collection[existObj.pos].update = new Date().getTime();
+                //             collection[existObj.pos].name = obj.name;
+                //         }
+
+                //     } else {
+                //         pushData(obj);
+                //     }
+                // }
             }
         }
 
@@ -78,12 +92,12 @@
         }
 
         function formatData(stockList) {
-            for (var pos = 0; pos < stockList.length; pos++) {
-                formatCollections(stockList[pos]);
+
+            stockList.map(function (value, key) {
+                formatCollections(value);
                 setLocalStorage();
                 $rootScope.$broadcast('mesageArrived', collection);
-
-            }
+            });
         }
 
         function setLocalStorage() {

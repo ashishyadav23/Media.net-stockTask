@@ -16,7 +16,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr ng-repeat="(key,value) in vm.stockList track by key">
+            <tr ng-repeat="(key,value) in vm.stockList track by key" ng-if="value.name">
               <th scope="row">{{value.name}}</th>
               <td ng-class="{'glyphicon glyphicon-arrow-up':value.color=='green','glyphicon glyphicon-arrow-down':value.color=='red','blacktext':value.color=='white'}"
                 ng-style="{'background-color':value.color,'color':'#fff'}">{{value.newValue}}</td>
